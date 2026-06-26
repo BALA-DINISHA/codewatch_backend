@@ -28,7 +28,10 @@
 		{
 		%>
 		<tr>
-		<td><%= s.getName() %></td> 
+		<td>
+		<a href="StudentProfileServlet?id=<%= s.getId() %>">
+		<%= s.getName() %>
+		</a></td> 
 		<td><%= s.getLeetcodeUsername() %></td> 
 		<td><%= s.getEasySolved() %></td> 
 		<td><%= s.getMediumSolved() %></td> 

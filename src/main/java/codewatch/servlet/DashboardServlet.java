@@ -31,13 +31,34 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		StudentDAO dao=new StudentDAO();
-		List<Student> students=dao.getAllStudent();
-		request.setAttribute("students", students);
-		
-		request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-		
-		
+		 StudentDAO dao = new StudentDAO();
+
+	        List<Student> students = dao.getAllStudent();
+	        
+	        students.sort((s1, s2) -> {
+
+	            int rank1 = s1.getRank() == 0 ? Integer.MAX_VALUE : s1.getRank();
+	            int rank2 = s2.getRank() == 0 ? Integer.MAX_VALUE : s2.getRank();
+
+	            return Integer.compare(rank1, rank2);
+	        });
+
+	    request.setAttribute("students", students);
+
+	    if(students.size() > 0)
+	        request.setAttribute("top1", students.get(0));
+
+	    if(students.size() > 1)
+	        request.setAttribute("top2", students.get(1));
+
+	    if(students.size() > 2)
+	        request.setAttribute("top3", students.get(2));
+
+	        request.setAttribute("students", students);
+
+	        request.getRequestDispatcher("admindashboard.jsp")
+	               .forward(request, response);
+	        
 	}
 
 	/**

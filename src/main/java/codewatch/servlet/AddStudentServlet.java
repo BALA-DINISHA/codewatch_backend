@@ -51,6 +51,12 @@ public class AddStudentServlet extends HttpServlet {
 			s.setHardSolved(hard);
 			s.setTotalSolved(total);
 			
+			//ranking 
+			String jsonRank=LeetCodeService.getProfile(username);
+			JSONObject objRank=new JSONObject(jsonRank);
+			int rank=objRank.getInt("ranking");
+			System.out.println(rank);
+			s.setRank(rank);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -65,14 +71,9 @@ public class AddStudentServlet extends HttpServlet {
                 dao.addStudent(s);
 
         if(result) {
-
-            response.sendRedirect(
-                    "success.jsp");
-
+        	response.sendRedirect("DashboardServlet?action=add&success=true");
         } else {
-
-            response.sendRedirect(
-                    "error.jsp");
+            response.sendRedirect("admindashboard.jsp?action=add&success=false");
         }
     }
 }

@@ -21,7 +21,7 @@ public class StudentDAO {
                     DBConnection.getConnection();
 
             String sql =
-                    "INSERT INTO students(name,leetcode_username,email,batch,easy_solved,medium_solved,hard_solved,total_solved) VALUES(?,?,?,?,?,?,?,?)";
+                    "INSERT INTO students(name,leetcode_username,email,batch,easy_solved,medium_solved,hard_solved,total_solved,lc_ranking) VALUES(?,?,?,?,?,?,?,?,?)";
 
             PreparedStatement ps =
                     con.prepareStatement(sql);
@@ -34,6 +34,7 @@ public class StudentDAO {
             ps.setInt(6, student.getMediumSolved());
             ps.setInt(7, student.getHardSolved());
             ps.setInt(8, student.getTotalSolved());
+            ps.setInt(9,student.getRank() );
 
             int row = ps.executeUpdate();
 
@@ -97,7 +98,8 @@ public class StudentDAO {
     			s.setMediumSolved(rs.getInt("medium_solved"));
     			s.setHardSolved(rs.getInt("hard_solved"));
     			s.setTotalSolved(rs.getInt("total_solved"));
-    			
+    			s.setRank(rs.getInt("lc_ranking"));
+    			s.setBatch(rs.getString("batch"));
     			list.add(s);
     			
     		}
@@ -128,8 +130,8 @@ public class StudentDAO {
     			s.setEasySolved(rs.getInt("easy_solved"));
     			s.setMediumSolved(rs.getInt("medium_solved"));
     			s.setHardSolved(rs.getInt("hard_solved"));
-    			s.setTotalSolved(rs.getInt("total_Solved"));
-    			
+    			s.setTotalSolved(rs.getInt("total_solved"));
+    			s.setRank(rs.getInt("lc_ranking"));
     		}
     		
     	}
@@ -138,5 +140,29 @@ public class StudentDAO {
     		e.printStackTrace();
     	}
     	return s;
+    }
+    public boolean DeleteStudentId(int id)
+    {
+    	boolean status = false;
+    	try
+    	{
+    		Connection con =DBConnection.getConnection();
+    		String q="delete from students where id=?";
+    		PreparedStatement ps=con.prepareStatement(q);
+    		ps.setInt(1,id);
+    		 int row = ps.executeUpdate();
+
+             if(row > 0) {
+                 status = true;
+             }
+             System.out.println("Status = " + status);
+             
+    		    		
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    	}
+    	return status;
     }
 }

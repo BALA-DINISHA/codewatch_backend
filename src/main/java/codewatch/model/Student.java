@@ -11,7 +11,7 @@ public class Student {
     private int mediumSolved;
     private int hardSolved;
     private int totalSolved;
-    
+    private int lcRanking;
     public Student() {
     }
 
@@ -85,5 +85,13 @@ public class Student {
     public void setTotalSolved(int totalSolved)
     {
     	this.totalSolved=totalSolved;
+    }
+    public int getRank()
+    {
+    	return lcRanking;
+    }
+    public void setRank(int lcRanking)
+    {
+    	this.lcRanking=lcRanking;
     }
 }
