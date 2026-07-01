@@ -1,0 +1,189 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 25px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg,#ffe4ec,#edcedf,#ffffff);
+}
+.forget-link{
+	font-size:13px;
+    font-weight:500;
+    text-align:center;
+    margin-top:5px;
+    color:#666;
+}
+.forget-link:hover{
+	text-decoration:underline;
+}
+.portal{
+    display: flex;
+    flex-direction: column;
+    margin-right: 80px;
+}
+.portal-title{
+    margin: 0;
+}
+.portal-subtitle{
+    margin-top: 10px;
+}
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 65%;
+    min-height: 550px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
+}
+.form-container{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all .6s ease-in-out;
+}
+.sign-up {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 50%;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+}
+.sign-in {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 2;
+}
+.container.active .sign-in {
+    transform: translateX(100%);
+    visibility: hidden;
+}
+.container.active .sign-up{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    pointer-events: auto;
+    visibility: visible;
+}
+form {
+    background: rgba(255, 255, 255, .15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px;
+    height: 100%;
+}
+form h1{
+    color: black;
+    margin-bottom: 20px;
+}
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 1px solid palevioletred;
+    outline: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255,.8);
+}
+button {
+    margin-top: 15px;
+    padding: 14px 40px;
+    border: 1px solid palevioletred;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    background: palevioletred;
+}
+.overlay-container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform .6s ease-in-out;
+    z-index: 100;
+}
+.overlay {
+    position: relative;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: #ffb5c0;
+    transition: transform .6s ease-in-out;
+}
+.container.active .overlay-container{
+    transform: translateX(-100%);
+}
+.container.active .overlay {
+    transform: translateX(50%);
+}
+.panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 40px;
+    transition: transform .6s ease-in-out;
+}
+.container.active .overlay-left{
+    transform: translateX(0);
+}
+.overlay-left {
+    left: 0;
+}
+.container.active .overlay-right{
+    transform: translateY(20%);
+}
+.overlay-right {
+    right: 0;
+}
+.panel h1 {
+    color: black;
+    margin-bottom: 20px;
+}
+.ghost {
+    background: transparent;
+    border: 2px solid palevioletred;
+    color: black;
+}
+.password-box {
+    position: relative;
+    width: 100%;
+}
+.password-box input{
+    width: 100%;
+}
+.toggle-password{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

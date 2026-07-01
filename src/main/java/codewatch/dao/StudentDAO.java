@@ -11,74 +11,56 @@ import codewatch.model.Student;
 
 public class StudentDAO {
 
-    public boolean addStudent(Student student) {
+	public boolean addStudent(Student student) {
 
-        boolean status = false;
+	    String sql = "INSERT INTO students(name, leetcode_username, email, batch, easy_solved, medium_solved, hard_solved, total_solved, lc_ranking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
+	    try (
+	            Connection con = DBConnection.getConnection();
+	            PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
 
-            Connection con =
-                    DBConnection.getConnection();
+	        ps.setString(1, student.getName());
+	        ps.setString(2, student.getLeetcodeUsername());
+	        ps.setString(3, student.getEmail());
+	        ps.setString(4, student.getBatch());
+	        ps.setInt(5, student.getEasySolved());
+	        ps.setInt(6, student.getMediumSolved());
+	        ps.setInt(7, student.getHardSolved());
+	        ps.setInt(8, student.getTotalSolved());
+	        ps.setInt(9, student.getRank());
 
-            String sql =
-                    "INSERT INTO students(name,leetcode_username,email,batch,easy_solved,medium_solved,hard_solved,total_solved,lc_ranking) VALUES(?,?,?,?,?,?,?,?,?)";
+	        return ps.executeUpdate() > 0;
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 
-            ps.setString(1, student.getName());
-            ps.setString(2, student.getLeetcodeUsername());
-            ps.setString(3, student.getEmail());
-            ps.setString(4, student.getBatch());
-            ps.setInt(5,student.getEasySolved());
-            ps.setInt(6, student.getMediumSolved());
-            ps.setInt(7, student.getHardSolved());
-            ps.setInt(8, student.getTotalSolved());
-            ps.setInt(9,student.getRank() );
+	    return false;
+	}
+	public boolean updateLeetCodeStats(String username, int easy, int medium, int hard, int total) {
 
-            int row = ps.executeUpdate();
+	    String sql = "UPDATE students SET easy_solved=?, medium_solved=?, hard_solved=?, total_solved=? WHERE leetcode_username=?";
 
-            if(row > 0) {
-                status = true;
-            }
-            System.out.println("Status = " + status);
+	    try (
+	            Connection con = DBConnection.getConnection();
+	            PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
 
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        return status;
-    }
-    public boolean updateLeetCodeStats(String username,int easy, int medium, int hard, int total)
-    {
-    	boolean status=false;
-    	try
-    	{
-    		Connection con =DBConnection.getConnection();
-    		 String q=
-    		            "UPDATE students SET " +
-    		            "easy_solved=?, " +
-    		            "medium_solved=?, " +
-    		            "hard_solved=?, " +
-    		            "total_solved=? " +
-    		            "WHERE leetcode_username=?";
-    		PreparedStatement ps=con.prepareStatement(q);
-    		ps.setInt(1,easy);
-    		ps.setInt(2,medium);
-    		ps.setInt(3,hard );
-    		ps.setInt(4, total);
-    		ps.setString(5,username);
-    		int row=ps.executeUpdate();
-    		if(row>0)
-    		{
-    			status=true;
-    		}
-    	}catch(Exception e)
-    	{
-    		e.printStackTrace();
-    	}
-    	return status;
-    }
+	        ps.setInt(1, easy);
+	        ps.setInt(2, medium);
+	        ps.setInt(3, hard);
+	        ps.setInt(4, total);
+	        ps.setString(5, username);
+
+	        return ps.executeUpdate() > 0;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return false;
+	}
     public List<Student> getAllStudent()
     {
     	List<Student> list= new ArrayList<>();
@@ -88,20 +70,10 @@ public class StudentDAO {
     		String q="select * from students";
     		PreparedStatement ps=con.prepareStatement(q);
     		ResultSet rs=ps.executeQuery();
-    		while(rs.next())
-    		{
-    			Student s=new Student();
-    			s.setId(rs.getInt("id"));
-    			s.setName(rs.getString("name"));
-    			s.setLeetcodeUsername(rs.getString("leetcode_username"));
-    			s.setEasySolved(rs.getInt("easy_solved"));
-    			s.setMediumSolved(rs.getInt("medium_solved"));
-    			s.setHardSolved(rs.getInt("hard_solved"));
-    			s.setTotalSolved(rs.getInt("total_solved"));
-    			s.setRank(rs.getInt("lc_ranking"));
-    			s.setBatch(rs.getString("batch"));
-    			list.add(s);
-    			
+    		while(rs.next()){
+
+    		    list.add(mapStudent(rs));
+
     		}
     	}
     	catch(Exception e)
@@ -121,19 +93,11 @@ public class StudentDAO {
     		PreparedStatement ps=con.prepareStatement(q);
     		ps.setInt(1, id);
     		ResultSet rs=ps.executeQuery();
-    		if(rs.next())
-    		{
-    			s=new Student();
-    			s.setId(rs.getInt("id"));
-    			s.setName(rs.getString("name"));
-    			s.setLeetcodeUsername(rs.getString("leetcode_username"));
-    			s.setEasySolved(rs.getInt("easy_solved"));
-    			s.setMediumSolved(rs.getInt("medium_solved"));
-    			s.setHardSolved(rs.getInt("hard_solved"));
-    			s.setTotalSolved(rs.getInt("total_solved"));
-    			s.setRank(rs.getInt("lc_ranking"));
+    		if(rs.next()){
+
+    		    s = mapStudent(rs);
+
     		}
-    		
     	}
     	catch(Exception e)
     	{
@@ -164,5 +128,21 @@ public class StudentDAO {
     		e.printStackTrace();
     	}
     	return status;
+    }
+    private Student mapStudent(ResultSet rs) throws Exception {
+
+        Student s = new Student();
+
+        s.setId(rs.getInt("id"));
+        s.setName(rs.getString("name"));
+        s.setLeetcodeUsername(rs.getString("leetcode_username"));
+        s.setEasySolved(rs.getInt("easy_solved"));
+        s.setMediumSolved(rs.getInt("medium_solved"));
+        s.setHardSolved(rs.getInt("hard_solved"));
+        s.setTotalSolved(rs.getInt("total_solved"));
+        s.setRank(rs.getInt("lc_ranking"));
+        s.setBatch(rs.getString("batch"));
+
+        return s;
     }
 }

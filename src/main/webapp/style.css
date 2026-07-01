@@ -1,0 +1,295 @@
+@charset "UTF-8";
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Roboto Condensed",sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffe4ec,#edcedf,#ffffff);
+    overflow:hidden;
+    padding:20px;
+}
+
+.portal{
+    display:flex;
+    flex-direction:column;
+    margin-right:80px;
+}
+
+.portal-title{
+    font-size:50px;
+}
+
+.portal-subtitle{
+    margin-top:10px;
+    font-size:22px;
+}
+
+.container{
+    position:relative;
+    width:900px;
+    max-width:100%;
+    min-height:550px;
+    background:rgba(255,255,255,.18);
+    backdrop-filter:blur(18px);
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.form-container{
+    position:absolute;
+    top:0;
+    height:100%;
+    transition:all .6s ease-in-out;
+}
+
+.sign-in{
+    left:0;
+    width:50%;
+    z-index:2;
+}
+
+.sign-up{
+    left:0;
+    width:50%;
+    opacity:0;
+    visibility:hidden;
+    z-index:1;
+}
+
+.container.active .sign-in{
+    transform:translateX(100%);
+    visibility:hidden;
+}
+
+.container.active .sign-up{
+    transform:translateX(100%);
+    opacity:1;
+    visibility:visible;
+    z-index:5;
+}
+
+form{
+    background:rgba(255,255,255,.15);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:0 50px;
+    height:100%;
+}
+
+form h1{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:1px solid palevioletred;
+    border-radius:12px;
+    outline:none;
+    background:rgba(255,255,255,.8);
+}
+
+button{
+    margin-top:15px;
+    padding:14px 40px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:palevioletred;
+    font-weight:600;
+}
+
+.forget-link{
+    font-size:14px;
+    color:#666;
+    margin-top:5px;
+}
+
+.forget-link:hover{
+    text-decoration:underline;
+}
+
+.password-box{
+    position:relative;
+    width:100%;
+}
+
+.toggle-password{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+}
+
+.overlay-container{
+    position:absolute;
+    top:0;
+    left:50%;
+    width:50%;
+    height:100%;
+    overflow:hidden;
+    transition:transform .6s ease-in-out;
+    z-index:100;
+}
+
+.overlay{
+    position:relative;
+    left:-100%;
+    width:200%;
+    height:100%;
+    background:#ffb5c0;
+    transition:transform .6s ease-in-out;
+}
+
+.container.active .overlay-container{
+    transform:translateX(-100%);
+}
+
+.container.active .overlay{
+    transform:translateX(50%);
+}
+
+.panel{
+    position:absolute;
+    width:50%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0 40px;
+}
+
+.overlay-left{
+    left:0;
+}
+
+.overlay-right{
+    right:0;
+}
+
+.panel h1{
+    margin-bottom:20px;
+}
+
+.ghost{
+    background:transparent;
+    border:2px solid palevioletred;
+}
+
+.mobile-switch{
+    display:none;
+}
+
+/* MOBILE */
+
+@media screen and (max-width:768px){
+
+    body{
+        flex-direction:column;
+        justify-content:flex-start;
+        align-items:center;
+        overflow-y:auto;
+        padding:20px;
+    }
+
+    .portal{
+        margin:0 0 20px 0;
+        text-align:center;
+    }
+
+    .portal-title{
+        font-size:36px;
+    }
+
+    .portal-subtitle{
+        font-size:18px;
+    }
+
+    .container{
+        width:100%;
+        max-width:420px;
+        min-height:auto;
+    }
+
+    .overlay-container{
+        display:none;
+    }
+
+    .form-container{
+        position:relative;
+        width:100%;
+        height:auto;
+        transform:none !important;
+    }
+
+    .sign-in,
+    .sign-up{
+        width:100%;
+        opacity:1;
+        visibility:visible;
+    }
+
+    .sign-in{
+        display:block;
+    }
+
+    .sign-up{
+        display:none;
+    }
+
+    .container.active .sign-in{
+        display:none;
+    }
+
+    .container.active .sign-up{
+        display:block;
+    }
+
+    form{
+        padding:30px 20px;
+    }
+
+    form h1{
+        font-size:32px;
+    }
+
+    input{
+        font-size:16px;
+    }
+
+    button{
+        width:100%;
+    }
+
+    .mobile-switch{
+        display:block;
+        margin-top:15px;
+        font-size:14px;
+        text-align:center;
+    }
+
+    .mobile-switch a{
+        color:palevioletred;
+        text-decoration:none;
+        font-weight:bold;
+    }
+
+    .mobile-switch a:hover{
+        text-decoration:underline;
+    }
+}

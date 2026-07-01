@@ -1,35 +1,59 @@
 package codewatch.dao;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 public class DBConnection {
 
-    private static final String URL =
-            "jdbc:mysql://localhost:3306/codewatch";
+    private static String URL;
+    private static String USER;
+    private static String PASSWORD;
 
-    private static final String USER = "root";
-
-    private static final String PASSWORD = "Bala@1234";
-
-    public static Connection getConnection() {
-
-        Connection con = null;
+    static {
 
         try {
 
+            Properties prop = new Properties();
+
+            InputStream input =
+                    DBConnection.class
+                    .getClassLoader()
+                    .getResourceAsStream("db.properties");
+
+            if (input == null) {
+                throw new RuntimeException("db.properties not found.");
+            }
+
+            prop.load(input);
+            input.close();
+
+            URL = prop.getProperty("db.url");
+            USER = prop.getProperty("db.user");
+            PASSWORD = prop.getProperty("db.password");
+
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            con = DriverManager.getConnection(
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection() {
+
+        try {
+
+            return DriverManager.getConnection(
                     URL,
                     USER,
                     PASSWORD
             );
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return con;
+        return null;
     }
 }

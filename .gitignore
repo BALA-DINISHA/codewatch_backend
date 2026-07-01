@@ -1,0 +1,29 @@
+# Build
+build/
+bin/
+target/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+
+# Java
+*.class
+
+# IntelliJ
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database credentials
+src/main/java/db.properties

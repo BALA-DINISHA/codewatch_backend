@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeRank Portal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;700&display=swap"
+      rel="stylesheet">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+<body>
+
+<div class="portal">
+    <h1 class="portal-title">ThoorigAI Portal</h1>
+    <p class="portal-subtitle">
+        Student Management System
+    </p>
+</div>
+
+<div class="container" id="container">
+
+    <!-- SIGN UP -->
+
+    <div class="form-container sign-up">
+
+        <form action="signup" method="post">
+
+            <h1>Create Account</h1>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                required>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password"
+                    id="signupPassword"
+                    placeholder="Password"
+                    required>
+
+                <span
+                    class="toggle-password"
+                    onclick="togglePassword('signupPassword',this)">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                </span>
+
+            </div>
+
+            <button type="submit">
+                Sign Up
+            </button>
+			<p class="mobile-switch">
+Already have an account?
+<a href="#" id="mobileSignin">Sign In</a>
+</p>
+        </form>
+
+    </div>
+
+    <!-- SIGN IN -->
+
+    <div class="form-container sign-in">
+
+        <form action="signin" method="post">
+
+            <h1>Sign In</h1>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password"
+                    id="signinPassword"
+                    placeholder="Password"
+                    required>
+
+                <span
+                    class="toggle-password"
+                    onclick="togglePassword('signinPassword',this)">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                </span>
+
+            </div>
+
+            <a href="forgetpassword.jsp"
+               class="forget-link">
+               Forgot Password?
+            </a>
+
+            <button type="submit">
+                Sign In
+            </button>
+           <p class="mobile-switch">
+Don't have an account?
+<a href="#" id="mobileSignup">Sign Up</a>
+</p>
+
+        </form>
+
+    </div>
+
+    <!-- OVERLAY -->
+
+    <div class="overlay-container">
+
+        <div class="overlay">
+
+            <div class="panel overlay-left">
+
+                <h1>Welcome Back</h1>
+
+                <p>
+                    Already have an account?<br>
+                    Login and continue
+                </p>
+
+                <button
+                    type="button"
+                    class="ghost"
+                    id="signin">
+
+                    Sign In
+
+                </button>
+
+            </div>
+
+            <div class="panel overlay-right">
+
+                <h1>Welcome</h1>
+
+                <p>
+                    Create an account and
+                    start managing students
+                </p>
+
+                <button
+                    type="button"
+                    class="ghost"
+                    id="signup">
+
+                    Sign Up
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const signupButton =
+document.getElementById("signup");
+
+const signinButton =
+document.getElementById("signin");
+
+const container =
+document.getElementById("container");
+
+signupButton.addEventListener("click", () => {
+    container.classList.add("active");
+});
+
+signinButton.addEventListener("click", () => {
+    container.classList.remove("active");
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const mobileSignup =
+        document.getElementById("mobileSignup");
+
+    const mobileSignin =
+        document.getElementById("mobileSignin");
+
+    if (mobileSignup) {
+        mobileSignup.addEventListener("click", function(e) {
+            e.preventDefault();
+            container.classList.add("active");
+        });
+    }
+
+    if (mobileSignin) {
+        mobileSignin.addEventListener("click", function(e) {
+            e.preventDefault();
+            container.classList.remove("active");
+        });
+    }
+
+});
+
+
+	function togglePassword(id, icon){
+
+
+
+	    const input = document.getElementById(id);
+
+	    const eye = icon.querySelector("i");
+
+
+
+	    if(input.type === "password"){
+
+	        input.type = "text";
+
+	        eye.classList.remove("fa-eye-slash");
+
+	        eye.classList.add("fa-eye");
+
+	    }else{
+
+	        input.type = "password";
+
+	        eye.classList.remove("fa-eye");
+
+	        eye.classList.add("fa-eye-slash");
+
+	    }
+
+	}
+
+</script>
+
+</body>
+</html>
